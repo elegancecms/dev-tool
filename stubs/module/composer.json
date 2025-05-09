@@ -1,0 +1,19 @@
+{
+    "name": "elegancecms/{-name}",
+    "description": "{Name} package",
+    "type": "package",
+    "autoload": {
+        "psr-4": {
+            "EleganceCMS\\{Name}\\": "src"
+        }
+    },
+    "require": {
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "EleganceCMS\\{Name}\\Providers\\{Name}ServiceProvider"
+            ]
+        }
+    }
+}

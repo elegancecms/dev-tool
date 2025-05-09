@@ -1,0 +1,22 @@
+<?php
+
+namespace {Module}\Models;
+
+use EleganceCMS\Base\Casts\SafeContent;
+use EleganceCMS\Base\Enums\BaseStatusEnum;
+use EleganceCMS\Base\Models\BaseModel;
+
+class {Name} extends BaseModel
+{
+    protected $table = '{names}';
+
+    protected $fillable = [
+        'name',
+        'status',
+    ];
+
+    protected $casts = [
+        'status' => BaseStatusEnum::class,
+        'name' => SafeContent::class,
+    ];
+}

@@ -1,0 +1,54 @@
+<?php
+
+namespace {Module}\Tables;
+
+use {Module}\Models\{Name};
+use EleganceCMS\Table\Abstracts\TableAbstract;
+use EleganceCMS\Table\Actions\DeleteAction;
+use EleganceCMS\Table\Actions\EditAction;
+use EleganceCMS\Table\BulkActions\DeleteBulkAction;
+use EleganceCMS\Table\BulkChanges\CreatedAtBulkChange;
+use EleganceCMS\Table\BulkChanges\NameBulkChange;
+use EleganceCMS\Table\BulkChanges\StatusBulkChange;
+use EleganceCMS\Table\Columns\CreatedAtColumn;
+use EleganceCMS\Table\Columns\IdColumn;
+use EleganceCMS\Table\Columns\NameColumn;
+use EleganceCMS\Table\Columns\StatusColumn;
+use EleganceCMS\Table\HeaderActions\CreateHeaderAction;
+use Illuminate\Database\Eloquent\Builder;
+
+class {Name}Table extends TableAbstract
+{
+    public function setup(): void
+    {
+        $this
+            ->model({Name}::class)
+            ->addHeaderAction(CreateHeaderAction::make()->route('{-name}.create'))
+            ->addActions([
+                EditAction::make()->route('{-name}.edit'),
+                DeleteAction::make()->route('{-name}.destroy'),
+            ])
+            ->addColumns([
+                IdColumn::make(),
+                NameColumn::make()->route('{-name}.edit'),
+                CreatedAtColumn::make(),
+                StatusColumn::make(),
+            ])
+            ->addBulkActions([
+                DeleteBulkAction::make()->permission('{-name}.destroy'),
+            ])
+            ->addBulkChanges([
+                NameBulkChange::make(),
+                StatusBulkChange::make(),
+                CreatedAtBulkChange::make(),
+            ])
+            ->queryUsing(function (Builder $query) {
+                $query->select([
+                    'id',
+                    'name',
+                    'created_at',
+                    'status',
+                ]);
+            });
+    }
+}
